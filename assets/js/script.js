@@ -8,6 +8,22 @@
 
 var schedulerEl = $('.scheduler');  // added scheduler class attribute to the 'scheduler' div container
 
+var hourEl = $('<div id="hour-12" class="row time-block past">');
+
+var hourTimeEl = $('<div class="col-2 col-md-1 hour text-center py-3">');
+hourTimeEl.text("12PM");
+hourEl.append(hourTimeEl);
+
+var hourInputEl = $('<textarea class="col-8 col-md-10 description" rows="3">');
+hourEl.append(hourInputEl);
+
+var hourSaveBtnEl = $('<button class="btn saveBtn col-2 col-md-1" aria-label="save">');
+var hourSaveIconEl = $('<i class="fas fa-save" aria-hidden="true">');
+hourSaveBtnEl.append(hourSaveIconEl);
+hourEl.append(hourSaveBtnEl);
+
+schedulerEl.append(hourEl);
+
 
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
