@@ -64,12 +64,30 @@ schedulerEl.on('click','.saveBtn', function(event){
 });
 
 
+function renderHourBackground(){
+    console.log("Rendering Hour Background...");
+}
+
+
+var currentHourState = 11;
+// var currentHour = today.format('HH') * 1;
+
 $(function () {
 
     setInterval(function() {
-        var today = dayjs();
-        console.log(today.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
-        $('#currentDay').text(today.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
+        var newTime = dayjs();
+        // console.log(today.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
+        $('#currentDay').text(newTime.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
+
+        var newHour = newTime.format('HH') * 1;
+        console.log('Current Hour:' + newHour, typeof newHour);
+        if(newHour === currentHourState){
+            console.log("Still the current hour");
+        } else {
+            console.log("The hour has changed");
+            // Re-render the background of each hour block
+            renderHourBackground();
+        }
     }, 1000);
 
 });
