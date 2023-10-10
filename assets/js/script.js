@@ -1,14 +1,24 @@
 /*
 
-    1. Render all the hour-block elements (24-blocks)
-    2. Figure out the saving to local storage, reading from local storage
-    3. Add time event handler where it monitors a change in hour then calls render hour backgrounds
+    [X] 1. Render all the hour-block elements (24-blocks)
+    [X] 2. Figure out clicking the save button event handler, saving to local storage, reading from local storage
+    [ ] 3. Add time event handler where it monitors a change in hour then calls render hour backgrounds
 
 */
 
+// Current Date (Placeholder for now, will need an event handler to monitor the time to help set the background of each hour block)
+var today = dayjs();
+console.log(today.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
+
+$('#currentDay').text(today.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
+
+
+// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
+// the code isn't run until the browser has finished rendering all the elements
+// in the html.
+// Initialize all the hour block containers in 24HR time as past hours (present/future hours set in the current time event handler)
 var schedulerEl = $('.scheduler');  // added scheduler class attribute to the 'scheduler' div container
 
-// Initialize all the hour block containers in 24HR time as past hours (present/future hours set in the current time event handler)
 for(var i = 9; i <= 17; i++){
     
     var idName = ("hour-" + i);
@@ -25,6 +35,9 @@ for(var i = 9; i <= 17; i++){
     hourEl.append(hourTimeEl);
     
     var hourInputEl = $('<textarea class="col-8 col-md-10 description" rows="3">');
+    var hourInputText = localStorage.getItem(idName); // Get information from local storage if exists
+    if(!hourInputText){hourInputText=""}
+    hourInputEl.text(hourInputText);
     hourEl.append(hourInputEl);
     
     var hourSaveBtnEl = $('<button class="btn saveBtn col-2 col-md-1" aria-label="save">');
@@ -33,19 +46,34 @@ for(var i = 9; i <= 17; i++){
     hourEl.append(hourSaveBtnEl);
     
     schedulerEl.append(hourEl);
-
 }
 
 
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
+// var updateHourEl;
+// var hourID;
+// var saveBtnEl;
 
-// Current Date (Placeholder for now, will need an event handler to monitor the time to help set the background of each hour block)
-var today = dayjs();
-console.log(today.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
+schedulerEl.on('click','.saveBtn', function(event){
+    
+    event.preventDefault();
+    event.stopPropagation();
 
-$('#currentDay').text(today.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
+    // updateHourEl = $(event.target).parent();
+    // saveBtnEl = $(event.target);
+    var saveBtnEl = $(this);
+    var updateHourEl = saveBtnEl.parent();
+    var hourID = updateHourEl.attr('id');
+
+    console.log(updateHourEl);
+    console.log('Hour ID: ' + hourID);
+    
+    var calendarItem = updateHourEl.children('textarea').val();
+    localStorage.setItem(hourID, calendarItem);
+    if(!calendarItem){console.log("Save button clicked, Empty Str Input");} else{console.log("Save: " + calendarItem);}
+
+    // Future To-do: Make one localStorage key for the entire application 
+
+});
 
 
 $(function () {
