@@ -150,6 +150,7 @@ setInterval(function() {
     if(newHour !== currentHourState){
         console.log("The hour has changed");
         // Re-render the background of each hour block
+        currentHourState = newHour;
         renderHourBackground();
     }
 
