@@ -13,12 +13,13 @@ N/A
 
 ## Usage
 
-Deployed Site: 
+Deployed Site: https://nestibry.github.io/umnbc-mod05-work-day-scheduler/
 
 Files: 
 - HTML: index.html
 - Styling: ./assets/css/style.css
 - jQuery JavaScript: ./assets/js/script.js
+
 
 
 Figure: Saved Schedule Example
