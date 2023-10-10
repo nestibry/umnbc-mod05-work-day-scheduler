@@ -9,21 +9,19 @@ Simple calendar application that allows a user to save events for each hour of a
 
 ## Installation
 
-N/A
+- N/A
 
 ## Usage
 
-Deployed Site: https://nestibry.github.io/umnbc-mod05-work-day-scheduler/
+- Deployed Site: https://nestibry.github.io/umnbc-mod05-work-day-scheduler/
 
-Files: 
-- HTML: index.html
-- Styling: ./assets/css/style.css
-- jQuery JavaScript: ./assets/js/script.js
+- Files: 
+    - HTML: index.html
+    - Styling: ./assets/css/style.css
+    - jQuery JavaScript: ./assets/js/script.js
 
-
-
-Figure: Saved Schedule Example
-![Saved Schedule Example](./assets/images/saved-schedule-example.png)
+- Figure: Example of a Saved Schedule
+- ![Saved Schedule Example](./assets/images/saved-schedule-example.png)
  
 ## Credits
 - [Day.js](https://day.js.org/en/)
@@ -31,6 +29,6 @@ Figure: Saved Schedule Example
 
 ## License
 
-[MIT License](https://choosealicense.com/licenses/mit/)
+- [MIT License](https://choosealicense.com/licenses/mit/)
 
 
