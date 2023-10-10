@@ -11,11 +11,62 @@ var today = dayjs();
 console.log(today.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
 $('#currentDay').text(today.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
 
-// var currentHourState = 15;
+// var currentHourState = 9;
 var currentHourState = today.format('HH') * 1;
 
 // Initialize all the hour block containers in 24HR time as past hours (present/future hours set in the current time event handler)
 var schedulerEl = $('.scheduler');  // added scheduler class attribute to the 'scheduler' div container
+
+function renderHourBackground(tempHour){
+    
+    var currentHour = tempHour || currentHourState;
+    
+    console.log("Rendering Hour Background for the " + currentHour + " hour...");
+    
+    for(var i = 9; i <= 17; i++){
+        var idName = ("#hour-" + i);
+        $(idName).attr('class');
+        console.log("Rendering Hour: ", idName, " ... ");
+        console.log("Classes:" + $(idName).attr('class'));
+        // var hasPast = $(idName).hasClass("past");
+        // var hasPresent = $(idName).hasClass("present");
+        // var hasFuture = $(idName).hasClass("future");
+        // console.log("hasPast:", hasPast);
+        // console.log("hasPresent:", hasPresent);
+        // console.log("hasFuture:", hasFuture);
+
+        $(idName).attr('class', 'row time-block');
+
+        // Remove current past/present/future classes in case if the element has multiple time classes
+        // if(hasPast){ $(idName).removeClass("past"); }
+        // if(hasPresent){ $(idName).removeClass("present"); }
+        // if(hasPresent){ $(idName).removeClass("future"); }
+        
+        console.log("Classes:" + $(idName).attr('class'));
+
+        if(i < currentHour){
+            console.log(idName, "past");
+            $(idName).addClass("past");
+            console.log("Classes:" + $(idName).attr('class'));
+
+        } else if (i == currentHour){
+            console.log(idName, "present");
+            $(idName).addClass("present");
+            console.log("Classes:" + $(idName).attr('class'));
+
+        } else if (i > currentHour){
+            console.log(idName, "future");
+            $(idName).addClass("future");
+            console.log("Classes:" + $(idName).attr('class'));
+
+        } else {
+            console.log(idName, "Cannot compare to currentHourState");
+        }
+
+    }
+}
+
+
 
 for(var i = 9; i <= 17; i++){
     
@@ -68,44 +119,44 @@ schedulerEl.on('click','.saveBtn', function(event){
 });
 
 
-function renderHourBackground(){
-    console.log("Rendering Hour Background...");
+// function renderHourBackground(){
+//     console.log("Rendering Hour Background...");
     
-    for(var i = 9; i <= 17; i++){
-        var idName = ("#hour-" + i);
-        $(idName).attr('class');
-        console.log( $(idName).attr('class'));
-        var hasPast = $(idName).hasClass("past");
-        var hasPresent = $(idName).hasClass("present");
-        var hasFuture = $(idName).hasClass("future");
-        console.log(hasPast, hasPresent, hasFuture);
+//     for(var i = 9; i <= 17; i++){
+//         var idName = ("#hour-" + i);
+//         $(idName).attr('class');
+//         console.log( $(idName).attr('class'));
+//         var hasPast = $(idName).hasClass("past");
+//         var hasPresent = $(idName).hasClass("present");
+//         var hasFuture = $(idName).hasClass("future");
+//         console.log(hasPast, hasPresent, hasFuture);
 
-        // Remove current past/present/future classes in case if the element has multiple time classes
-        if(hasPast){ $(idName).removeClass("past"); }
-        if(hasPresent){ $(idName).removeClass("present"); }
-        if(hasPresent){ $(idName).removeClass("future"); }
+//         // Remove current past/present/future classes in case if the element has multiple time classes
+//         if(hasPast){ $(idName).removeClass("past"); }
+//         if(hasPresent){ $(idName).removeClass("present"); }
+//         if(hasPresent){ $(idName).removeClass("future"); }
         
-        if(i < currentHourState){
-            console.log(idName, "past");
-            $(idName).addClass("past");
+//         if(i < currentHourState){
+//             console.log(idName, "past");
+//             $(idName).addClass("past");
 
-        } else if (i === currentHourState){
-            console.log(idName, "present");
-            $(idName).addClass("present");
+//         } else if (i === currentHourState){
+//             console.log(idName, "present");
+//             $(idName).addClass("present");
 
-        } else if (i > currentHourState){
-            console.log(idName, "future");
-            $(idName).addClass("future");
+//         } else if (i > currentHourState){
+//             console.log(idName, "future");
+//             $(idName).addClass("future");
 
-        } else {
-            console.log(idName, "Cannot compare to currentHourState");
-        }
-    }
-}
+//         } else {
+//             console.log(idName, "Cannot compare to currentHourState");
+//         }
+//     }
+// }
 
 
 // var currentHourState = 11;
-var currentHourState = today.format('HH') * 1;
+// var currentHourState = today.format('HH') * 1;
 
 // $(function () {
 
@@ -133,6 +184,10 @@ var currentHourState = today.format('HH') * 1;
 
 // });
 
+
+
+
+
 setInterval(function() {
     var newTime = dayjs();
     // console.log(today.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
@@ -155,6 +210,10 @@ setInterval(function() {
     }
 
 }, 1000);
+
+
+
+
 
 
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
