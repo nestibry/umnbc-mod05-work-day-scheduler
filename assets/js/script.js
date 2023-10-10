@@ -35,6 +35,9 @@ for(var i = 9; i <= 17; i++){
     hourEl.append(hourTimeEl);
     
     var hourInputEl = $('<textarea class="col-8 col-md-10 description" rows="3">');
+    var hourInputText = localStorage.getItem(idName); // Get information from local storage if exists
+    if(!hourInputText){hourInputText=""}
+    hourInputEl.text(hourInputText);
     hourEl.append(hourInputEl);
     
     var hourSaveBtnEl = $('<button class="btn saveBtn col-2 col-md-1" aria-label="save">');
@@ -43,7 +46,6 @@ for(var i = 9; i <= 17; i++){
     hourEl.append(hourSaveBtnEl);
     
     schedulerEl.append(hourEl);
-
 }
 
 
@@ -67,8 +69,7 @@ schedulerEl.on('click','.saveBtn', function(event){
     
     var calendarItem = updateHourEl.children('textarea').val();
     localStorage.setItem(hourID, calendarItem);
-    if(!calendarItem){console.log("Save button clicked, Empty Str Input");} 
-    else{console.log("Save: " + calendarItem);}
+    if(!calendarItem){console.log("Save button clicked, Empty Str Input");} else{console.log("Save: " + calendarItem);}
 
     // Future To-do: Make one localStorage key for the entire application 
 
