@@ -1,6 +1,14 @@
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
+
+// Current Date (Placeholder for now, will need an event handler to monitor the time to help set the background of each hour block)
+var today = dayjs();
+console.log(today.format('dddd, MMM DD, YYYY -- HH:mm:ss'));
+
+$('#currentDay').text(today.format('dddd, MMM DD, YYYY -- HH:mm:ss'));
+
+
 $(function () {
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
