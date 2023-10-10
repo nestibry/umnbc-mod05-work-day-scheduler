@@ -66,11 +66,11 @@ schedulerEl.on('click','.saveBtn', function(event){
     console.log('Hour ID: ' + hourID);
     
     var calendarItem = updateHourEl.children('textarea').val();
-    if(!calendarItem){
-        console.log("Save button clicked, but no calendar item to add");
-    } else {
-        console.log("Save: " + calendarItem);
-    }
+    localStorage.setItem(hourID, calendarItem);
+    if(!calendarItem){console.log("Save button clicked, Empty Str Input");} 
+    else{console.log("Save: " + calendarItem);}
+
+    // Future To-do: Make one localStorage key for the entire application 
 
 });
 
