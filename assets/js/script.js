@@ -105,10 +105,10 @@ setInterval(function() {
 
     // new current hour used to monitor change in hour
     var newHour = newTime.format('HH') * 1;
-    console.log('Change to the new hour:' + newHour, typeof newHour);
 
     // Upon hour change, re-render the background of each hour block
     if(newHour !== currentHourState){
+        console.log('Change to the new hour:' + newHour, typeof newHour);
         currentHourState = newHour;
         renderHourBackground();
     }
