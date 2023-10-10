@@ -8,28 +8,6 @@
 
 var schedulerEl = $('.scheduler');  // added scheduler class attribute to the 'scheduler' div container
 
-var idName = "hour-15";
-
-var hourEl = $('<div class="row time-block past">');
-hourEl.attr("id",idName);
-hourEl.removeClass("past");
-hourEl.addClass("present");
-
-var hourTimeEl = $('<div class="col-2 col-md-1 hour text-center py-3">');
-// hourTimeEl.text("12PM");
-hourTimeEl.text(idName);
-hourEl.append(hourTimeEl);
-
-var hourInputEl = $('<textarea class="col-8 col-md-10 description" rows="3">');
-hourEl.append(hourInputEl);
-
-var hourSaveBtnEl = $('<button class="btn saveBtn col-2 col-md-1" aria-label="save">');
-var hourSaveIconEl = $('<i class="fas fa-save" aria-hidden="true">');
-hourSaveBtnEl.append(hourSaveIconEl);
-hourEl.append(hourSaveBtnEl);
-
-schedulerEl.append(hourEl);
-
 // Initialize all the hour block containers in 24HR time as past hours (present/future hours set in the current time event handler)
 for(var i = 9; i <= 17; i++){
     
