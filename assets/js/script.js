@@ -1,7 +1,7 @@
 /*
 
     [X] 1. Render all the hour-block elements (24-blocks)
-    [ ] 2. Figure out clicking the save button event handler, saving to local storage, reading from local storage
+    [X] 2. Figure out clicking the save button event handler, saving to local storage, reading from local storage
     [ ] 3. Add time event handler where it monitors a change in hour then calls render hour backgrounds
 
 */
