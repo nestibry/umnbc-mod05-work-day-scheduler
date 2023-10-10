@@ -48,17 +48,18 @@ for(var i = 9; i <= 17; i++){
 
 
 var updateHourEl;
+var hourID;
 schedulerEl.on('click','.saveBtn', function(event){
     
     event.preventDefault();
+    event.stopPropagation();
 
     updateHourEl = $(event.target).parent();
+    hourID = updateHourEl.attr('id');
     console.log(updateHourEl);
-    console.log(updateHourEl.attr('id'));
+    console.log('Hour ID: ' + hourID);
     
-    // var calendarItem = $('textarea').val();
     var calendarItem = updateHourEl.children('textarea').val();
-    
     if(!calendarItem){
         console.log("Save button clicked, but no calendar item to add");
         // return;
