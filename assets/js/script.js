@@ -6,9 +6,19 @@
 
 */
 
+// Current Date (Placeholder for now, will need an event handler to monitor the time to help set the background of each hour block)
+var today = dayjs();
+console.log(today.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
+
+$('#currentDay').text(today.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
+
+
+// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
+// the code isn't run until the browser has finished rendering all the elements
+// in the html.
+// Initialize all the hour block containers in 24HR time as past hours (present/future hours set in the current time event handler)
 var schedulerEl = $('.scheduler');  // added scheduler class attribute to the 'scheduler' div container
 
-// Initialize all the hour block containers in 24HR time as past hours (present/future hours set in the current time event handler)
 for(var i = 9; i <= 17; i++){
     
     var idName = ("hour-" + i);
@@ -36,16 +46,6 @@ for(var i = 9; i <= 17; i++){
 
 }
 
-
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
-
-// Current Date (Placeholder for now, will need an event handler to monitor the time to help set the background of each hour block)
-var today = dayjs();
-console.log(today.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
-
-$('#currentDay').text(today.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
 
 
 $(function () {
