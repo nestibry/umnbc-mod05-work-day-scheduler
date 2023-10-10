@@ -6,16 +6,14 @@
 
 */
 
-// Current Date (Placeholder for now, will need an event handler to monitor the time to help set the background of each hour block)
+// Initialize the Current Date -- Updates in the self-invoking function
 var today = dayjs();
 console.log(today.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
-
 $('#currentDay').text(today.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
 
+// var currentHourState = 15;
+var currentHourState = today.format('HH') * 1;
 
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
 // Initialize all the hour block containers in 24HR time as past hours (present/future hours set in the current time event handler)
 var schedulerEl = $('.scheduler');  // added scheduler class attribute to the 'scheduler' div container
 
@@ -47,19 +45,13 @@ for(var i = 9; i <= 17; i++){
     
     schedulerEl.append(hourEl);
 }
-
-
-// var updateHourEl;
-// var hourID;
-// var saveBtnEl;
+renderHourBackground();
 
 schedulerEl.on('click','.saveBtn', function(event){
     
     event.preventDefault();
     event.stopPropagation();
 
-    // updateHourEl = $(event.target).parent();
-    // saveBtnEl = $(event.target);
     var saveBtnEl = $(this);
     var updateHourEl = saveBtnEl.parent();
     var hourID = updateHourEl.attr('id');
@@ -74,6 +66,100 @@ schedulerEl.on('click','.saveBtn', function(event){
     // Future To-do: Make one localStorage key for the entire application 
 
 });
+
+
+function renderHourBackground(){
+    console.log("Rendering Hour Background...");
+    
+    for(var i = 9; i <= 17; i++){
+        var idName = ("#hour-" + i);
+        $(idName).attr('class');
+        console.log( $(idName).attr('class'));
+        var hasPast = $(idName).hasClass("past");
+        var hasPresent = $(idName).hasClass("present");
+        var hasFuture = $(idName).hasClass("future");
+        console.log(hasPast, hasPresent, hasFuture);
+
+        // Remove current past/present/future classes in case if the element has multiple time classes
+        if(hasPast){ $(idName).removeClass("past"); }
+        if(hasPresent){ $(idName).removeClass("present"); }
+        if(hasPresent){ $(idName).removeClass("future"); }
+        
+        if(i < currentHourState){
+            console.log(idName, "past");
+            $(idName).addClass("past");
+
+        } else if (i === currentHourState){
+            console.log(idName, "present");
+            $(idName).addClass("present");
+
+        } else if (i > currentHourState){
+            console.log(idName, "future");
+            $(idName).addClass("future");
+
+        } else {
+            console.log(idName, "Cannot compare to currentHourState");
+        }
+    }
+}
+
+
+// var currentHourState = 11;
+var currentHourState = today.format('HH') * 1;
+
+// $(function () {
+
+//     setInterval(function() {
+//         var newTime = dayjs();
+//         // console.log(today.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
+//         $('#currentDay').text(newTime.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
+
+//         var newHour = newTime.format('HH') * 1;
+//         console.log('Current Hour:' + newHour, typeof newHour);
+//         // if(newHour === currentHourState){
+//         //     console.log("Still the current hour");
+//         // } else {
+//         //     console.log("The hour has changed");
+//         //     // Re-render the background of each hour block
+//         //     renderHourBackground();
+//         // }
+//         if(newHour !== currentHourState){
+//             console.log("The hour has changed");
+//             // Re-render the background of each hour block
+//             renderHourBackground();
+//         }
+
+//     }, 1000);
+
+// });
+
+setInterval(function() {
+    var newTime = dayjs();
+    // console.log(today.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
+    $('#currentDay').text(newTime.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
+
+    var newHour = newTime.format('HH') * 1;
+    console.log('Current Hour:' + newHour, typeof newHour);
+    // if(newHour === currentHourState){
+    //     console.log("Still the current hour");
+    // } else {
+    //     console.log("The hour has changed");
+    //     // Re-render the background of each hour block
+    //     renderHourBackground();
+    // }
+    if(newHour !== currentHourState){
+        console.log("The hour has changed");
+        // Re-render the background of each hour block
+        currentHourState = newHour;
+        renderHourBackground();
+    }
+
+}, 1000);
+
+
+// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
+// the code isn't run until the browser has finished rendering all the elements
+// in the html.
 
 
 $(function () {
