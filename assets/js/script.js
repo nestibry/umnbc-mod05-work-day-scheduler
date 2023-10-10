@@ -1,3 +1,12 @@
+/*
+
+    1. Render all the hour-block elements (24-blocks)
+    2. Figure out the saving to local storage, reading from local storage
+    3. Add time event handler where it monitors a change in hour then calls render hour backgrounds
+
+*/
+
+
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
