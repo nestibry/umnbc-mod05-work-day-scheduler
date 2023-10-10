@@ -6,6 +6,8 @@
 
 */
 
+var schedulerEl = $('.scheduler');  // added scheduler class attribute to the 'scheduler' div container
+
 
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
@@ -13,9 +15,9 @@
 
 // Current Date (Placeholder for now, will need an event handler to monitor the time to help set the background of each hour block)
 var today = dayjs();
-console.log(today.format('dddd, MMM DD, YYYY -- HH:mm:ss'));
+console.log(today.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
 
-$('#currentDay').text(today.format('dddd, MMM DD, YYYY -- HH:mm:ss'));
+$('#currentDay').text(today.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
 
 
 $(function () {
