@@ -77,6 +77,18 @@ schedulerEl.on('click','.saveBtn', function(event){
 
 
 $(function () {
+
+    setInterval(function() {
+        var today = dayjs();
+        console.log(today.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
+        $('#currentDay').text(today.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
+    }, 1000);
+
+});
+// getCurrentTime();
+
+
+$(function () {
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
