@@ -6,16 +6,11 @@
 
 */
 
-// Current Date (Placeholder for now, will need an event handler to monitor the time to help set the background of each hour block)
+// Initialize the Current Date -- Updates in the self-invoking function
 var today = dayjs();
 console.log(today.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
-
 $('#currentDay').text(today.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
 
-
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
 // Initialize all the hour block containers in 24HR time as past hours (present/future hours set in the current time event handler)
 var schedulerEl = $('.scheduler');  // added scheduler class attribute to the 'scheduler' div container
 
@@ -48,18 +43,11 @@ for(var i = 9; i <= 17; i++){
     schedulerEl.append(hourEl);
 }
 
-
-// var updateHourEl;
-// var hourID;
-// var saveBtnEl;
-
 schedulerEl.on('click','.saveBtn', function(event){
     
     event.preventDefault();
     event.stopPropagation();
 
-    // updateHourEl = $(event.target).parent();
-    // saveBtnEl = $(event.target);
     var saveBtnEl = $(this);
     var updateHourEl = saveBtnEl.parent();
     var hourID = updateHourEl.attr('id');
@@ -85,7 +73,11 @@ $(function () {
     }, 1000);
 
 });
-// getCurrentTime();
+
+
+// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
+// the code isn't run until the browser has finished rendering all the elements
+// in the html.
 
 
 $(function () {
