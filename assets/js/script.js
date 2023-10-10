@@ -47,10 +47,25 @@ for(var i = 9; i <= 17; i++){
 }
 
 
-
+var updateHourEl;
 schedulerEl.on('click','.saveBtn', function(event){
-    console.log("Save button clicked, yay!");
     
+    event.preventDefault();
+
+    updateHourEl = $(event.target).parent();
+    console.log(updateHourEl);
+    console.log(updateHourEl.attr('id'));
+    
+    // var calendarItem = $('textarea').val();
+    var calendarItem = updateHourEl.children('textarea').val();
+    
+    if(!calendarItem){
+        console.log("Save button clicked, but no calendar item to add");
+        // return;
+    } else {
+        console.log("Save: " + calendarItem);
+    }
+
 });
 
 
