@@ -1,81 +1,24 @@
-/*
-
-    [X] 1. Render all the hour-block elements (24-blocks)
-    [X] 2. Figure out clicking the save button event handler, saving to local storage, reading from local storage
-    [ ] 3. Add time event handler where it monitors a change in hour then calls render hour backgrounds
-
-*/
-
 // Initialize the Current Date -- Updates in the self-invoking function
 var today = dayjs();
 console.log(today.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
 $('#currentDay').text(today.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
+var currentHourState = today.format('HH') * 1;  // Used to monitor the hour past/present/future
 
-// var currentHourState = 9;
-var currentHourState = today.format('HH') * 1;
 
-// Initialize all the hour block containers in 24HR time as past hours (present/future hours set in the current time event handler)
+// Initialize scheduler container that holds all the hour row containers
 var schedulerEl = $('.scheduler');  // added scheduler class attribute to the 'scheduler' div container
 
-function renderHourBackground(tempHour){
-    
-    var currentHour = tempHour || currentHourState;
-    
-    console.log("Rendering Hour Background for the " + currentHour + " hour...");
-    
-    for(var i = 9; i <= 17; i++){
-        var idName = ("#hour-" + i);
-        $(idName).attr('class');
-        console.log("Rendering Hour: ", idName, " ... ");
-        console.log("Classes:" + $(idName).attr('class'));
-        // var hasPast = $(idName).hasClass("past");
-        // var hasPresent = $(idName).hasClass("present");
-        // var hasFuture = $(idName).hasClass("future");
-        // console.log("hasPast:", hasPast);
-        // console.log("hasPresent:", hasPresent);
-        // console.log("hasFuture:", hasFuture);
 
-        $(idName).attr('class', 'row time-block');
-
-        // Remove current past/present/future classes in case if the element has multiple time classes
-        // if(hasPast){ $(idName).removeClass("past"); }
-        // if(hasPresent){ $(idName).removeClass("present"); }
-        // if(hasPresent){ $(idName).removeClass("future"); }
-        
-        console.log("Classes:" + $(idName).attr('class'));
-
-        if(i < currentHour){
-            console.log(idName, "past");
-            $(idName).addClass("past");
-            console.log("Classes:" + $(idName).attr('class'));
-
-        } else if (i == currentHour){
-            console.log(idName, "present");
-            $(idName).addClass("present");
-            console.log("Classes:" + $(idName).attr('class'));
-
-        } else if (i > currentHour){
-            console.log(idName, "future");
-            $(idName).addClass("future");
-            console.log("Classes:" + $(idName).attr('class'));
-
-        } else {
-            console.log(idName, "Cannot compare to currentHourState");
-        }
-
-    }
-}
-
-
-
+// Initialize the scheduler container with all the hours (9am-5pm) listed then call renderHourBackground
+// using military time (24HR clock)as past hours (present/future hours set in the current time event handler)
 for(var i = 9; i <= 17; i++){
     
-    var idName = ("hour-" + i);
-    console.log(idName, typeof idName, (i%12));
-
+    // Create hour row container and add html id="hour-HH" (military time)
     var hourEl = $('<div class="row time-block past">');
+    var idName = ("hour-" + i);
     hourEl.attr("id",idName);
 
+    // Create the hour label and add it to the hour row container
     var hourTimeEl = $('<div class="col-2 col-md-1 hour text-center py-3">');
     if(i < 12){ hourTimeEl.text(i + "AM"); }
     else if(i === 12){ hourTimeEl.text(i + "PM"); }
@@ -83,128 +26,89 @@ for(var i = 9; i <= 17; i++){
     else {console.log("hourTimeEl text value is being miscalculated.");}
     hourEl.append(hourTimeEl);
     
+    // Create the hour input text element and add it to the hour row container
     var hourInputEl = $('<textarea class="col-8 col-md-10 description" rows="3">');
     var hourInputText = localStorage.getItem(idName); // Get information from local storage if exists
     if(!hourInputText){hourInputText=""}
     hourInputEl.text(hourInputText);
     hourEl.append(hourInputEl);
     
+    // Create the save inputs button and add it to the hour row container
     var hourSaveBtnEl = $('<button class="btn saveBtn col-2 col-md-1" aria-label="save">');
     var hourSaveIconEl = $('<i class="fas fa-save" aria-hidden="true">');
     hourSaveBtnEl.append(hourSaveIconEl);
     hourEl.append(hourSaveBtnEl);
     
+    // Append the hour row container to the scheduler container
     schedulerEl.append(hourEl);
 }
-renderHourBackground();
+renderHourBackground();  
 
+
+// render the current hour row colors (this function is being hoisted)
+function renderHourBackground(tempHour){
+    
+    var currentHour = tempHour || currentHourState;  //tempHour used for debugging code to change the rendering as needed
+    
+    console.log("Rendering Hour Background for the " + currentHour + "th hour...");
+    
+    // Render the past/present/future background
+    for(var i = 9; i <= 17; i++){
+        var idName = ("#hour-" + i);
+        $(idName).attr('class');
+        console.log("Rendering Hour: ", idName, " ... ");
+        console.log("Original Classes: " + $(idName).attr('class'));
+
+        // reset the class block...this essentially removes past/present/future from the old class values
+        $(idName).attr('class', 'row time-block');
+
+        // add class past || present || future
+        if(i < currentHour){ $(idName).addClass("past"); } 
+        else if (i == currentHour){ $(idName).addClass("present"); } 
+        else if (i > currentHour){ $(idName).addClass("future"); } 
+        else { console.log(idName, "Cannot compare to currentHourState"); }
+        
+        console.log("New Classes: " + $(idName).attr('class'));
+    }
+}
+
+
+// User clicks on a save button
 schedulerEl.on('click','.saveBtn', function(event){
     
+    // Preventing any funkiness with clicking on a save button in the scheduler container
     event.preventDefault();
     event.stopPropagation();
 
+    // Get the hour id from html class
     var saveBtnEl = $(this);
     var updateHourEl = saveBtnEl.parent();
     var hourID = updateHourEl.attr('id');
-
-    console.log(updateHourEl);
-    console.log('Hour ID: ' + hourID);
+    console.log('User Saving Text for ID: ' + hourID);
     
+    // Save the text to localStorage
     var calendarItem = updateHourEl.children('textarea').val();
     localStorage.setItem(hourID, calendarItem);
-    if(!calendarItem){console.log("Save button clicked, Empty Str Input");} else{console.log("Save: " + calendarItem);}
+    if(!calendarItem){console.log("Save button clicked, Empty Str Input");} else{console.log("Saved Text: " + calendarItem);}
 
     // Future To-do: Make one localStorage key for the entire application 
-
 });
 
 
-// function renderHourBackground(){
-//     console.log("Rendering Hour Background...");
-    
-//     for(var i = 9; i <= 17; i++){
-//         var idName = ("#hour-" + i);
-//         $(idName).attr('class');
-//         console.log( $(idName).attr('class'));
-//         var hasPast = $(idName).hasClass("past");
-//         var hasPresent = $(idName).hasClass("present");
-//         var hasFuture = $(idName).hasClass("future");
-//         console.log(hasPast, hasPresent, hasFuture);
 
-//         // Remove current past/present/future classes in case if the element has multiple time classes
-//         if(hasPast){ $(idName).removeClass("past"); }
-//         if(hasPresent){ $(idName).removeClass("present"); }
-//         if(hasPresent){ $(idName).removeClass("future"); }
-        
-//         if(i < currentHourState){
-//             console.log(idName, "past");
-//             $(idName).addClass("past");
-
-//         } else if (i === currentHourState){
-//             console.log(idName, "present");
-//             $(idName).addClass("present");
-
-//         } else if (i > currentHourState){
-//             console.log(idName, "future");
-//             $(idName).addClass("future");
-
-//         } else {
-//             console.log(idName, "Cannot compare to currentHourState");
-//         }
-//     }
-// }
-
-
-// var currentHourState = 11;
-// var currentHourState = today.format('HH') * 1;
-
-// $(function () {
-
-//     setInterval(function() {
-//         var newTime = dayjs();
-//         // console.log(today.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
-//         $('#currentDay').text(newTime.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
-
-//         var newHour = newTime.format('HH') * 1;
-//         console.log('Current Hour:' + newHour, typeof newHour);
-//         // if(newHour === currentHourState){
-//         //     console.log("Still the current hour");
-//         // } else {
-//         //     console.log("The hour has changed");
-//         //     // Re-render the background of each hour block
-//         //     renderHourBackground();
-//         // }
-//         if(newHour !== currentHourState){
-//             console.log("The hour has changed");
-//             // Re-render the background of each hour block
-//             renderHourBackground();
-//         }
-
-//     }, 1000);
-
-// });
-
-
-
-
-
+// Update the current time every second, check if there has been an hour change
 setInterval(function() {
+    
+    // new current time
     var newTime = dayjs();
-    // console.log(today.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
     $('#currentDay').text(newTime.format('dddd, MMMM DD, YYYY -- HH:mm:ss'));
 
+    // new current hour used to monitor change in hour
     var newHour = newTime.format('HH') * 1;
-    console.log('Current Hour:' + newHour, typeof newHour);
-    // if(newHour === currentHourState){
-    //     console.log("Still the current hour");
-    // } else {
-    //     console.log("The hour has changed");
-    //     // Re-render the background of each hour block
-    //     renderHourBackground();
-    // }
+    console.log('Change to the new hour:' + newHour, typeof newHour);
+
+    // Upon hour change, re-render the background of each hour block
     if(newHour !== currentHourState){
-        console.log("The hour has changed");
-        // Re-render the background of each hour block
         currentHourState = newHour;
         renderHourBackground();
     }
@@ -214,30 +118,3 @@ setInterval(function() {
 
 
 
-
-
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
-
-
-$(function () {
-  // TODO: Add a listener for click events on the save button. This code should
-  // use the id in the containing time-block as a key to save the user input in
-  // local storage. HINT: What does `this` reference in the click listener
-  // function? How can DOM traversal be used to get the "hour-x" id of the
-  // time-block containing the button that was clicked? How might the id be
-  // useful when saving the description in local storage?
-  //
-  // TODO: Add code to apply the past, present, or future class to each time
-  // block by comparing the id to the current hour. HINTS: How can the id
-  // attribute of each time-block be used to conditionally add or remove the
-  // past, present, and future classes? How can Day.js be used to get the
-  // current hour in 24-hour time?
-  //
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-  //
-  // TODO: Add code to display the current date in the header of the page.
-});
